@@ -21,8 +21,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     // game thread
     private Thread thread;
     private boolean running;
-    private int FPS = 60;
-    private long targetTime = 1000 / FPS;
+    private final int FPS = 60;
+    private final long targetTime = 1000 / FPS;
 
     // image
     private BufferedImage image;
@@ -30,13 +30,12 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
     // game state manager
     private GameStateManager gsm;
-    
 
     public GamePanel() {
         super();
-        setPreferredSize(new Dimension(GamePanel.WIDTH * GamePanel.SCALE, GamePanel.HEIGHT * GamePanel.SCALE));
-        setFocusable(true);
-        requestFocus();
+        this.setPreferredSize(new Dimension(GamePanel.WIDTH * GamePanel.SCALE, GamePanel.HEIGHT * GamePanel.SCALE));
+        this.setFocusable(true);
+        this.requestFocus();
     }
 
     @Override
@@ -55,6 +54,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         this.running = true;
 
         this.gsm = new GameStateManager();
+        System.out.println("GameStateManager initialized");
     }
 
     @Override
@@ -88,7 +88,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     }
 
     private void update() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        this.gsm.update();
     }
 
     private void draw() {
@@ -97,7 +97,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
     private void drawToScreen() {
         Graphics g2 = (Graphics) this.getGraphics();
-        g2.drawImage(this.image, 0, 0, null);
+        g2.drawImage(this.image, 0, 0, GamePanel.WIDTH * GamePanel.SCALE, GamePanel.HEIGHT * GamePanel.SCALE, null);
         g2.dispose();
     }
 
