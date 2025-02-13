@@ -25,6 +25,11 @@ public class MenuState extends GameState {
 
     public MenuState(GameStateManager gsm) {
         super(gsm);
+        this.init();
+    }
+    
+    @Override
+    public void init() {
         try {
 
             this.bg = new Background("/Backgrounds/menubg.gif", 1);
@@ -40,12 +45,6 @@ public class MenuState extends GameState {
         catch (Exception e) {
             e.printStackTrace();
         }
-    }
-    
-    @Override
-    public void init() {
-        // Initialization code here
-        System.out.println("MenuState initialized");
     }
 
     @Override
@@ -79,7 +78,7 @@ public class MenuState extends GameState {
 
     private void select() {
         if (this.currentChoice == 0) {
-            //
+            gsm.setState(GameStateManager.LEVEL1STATE);
         }
         if (this.currentChoice == 1) {
             // help
