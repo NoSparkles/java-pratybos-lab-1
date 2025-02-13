@@ -44,7 +44,6 @@ public class TileMap {
     private int numColsToDraw;
 
     public TileMap(int tileSize) {
-        this.map = new int[1000][1000];
         this.tileSize = tileSize;
         this.numRowsToDraw = GamePanel.HEIGHT / tileSize + 2;
         this.numColsToDraw = GamePanel.WIDTH / tileSize + 2;
@@ -79,6 +78,8 @@ public class TileMap {
 
             this.width = this.numCols * this.tileSize;
             this.height = this.numRows * this.tileSize;
+
+            this.map = new int[this.numRows][this.numCols];
 
             // regex for 1 or more whitespace characters
             String delims = "\\s+";

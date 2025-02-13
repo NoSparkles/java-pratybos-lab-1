@@ -32,7 +32,7 @@ public class Level1State extends GameState {
     @Override
     public void draw(Graphics2D g) {
         // clear screen
-        g.setColor(java.awt.Color.BLACK);
+        g.setColor(java.awt.Color.cyan);
         g.fillRect(0, 0, GamePanel.WIDTH, GamePanel.HEIGHT);
 
         // draw tilemap
