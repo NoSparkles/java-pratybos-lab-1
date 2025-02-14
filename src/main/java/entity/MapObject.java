@@ -218,6 +218,4 @@ public abstract class MapObject {
                this.y + this.yMap + this.height < 0 || 
                this.y + this.yMap - this.height > GamePanel.HEIGHT;
     }
-
-
 }

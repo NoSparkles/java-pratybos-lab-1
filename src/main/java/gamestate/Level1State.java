@@ -8,7 +8,6 @@ import tilemap.Background;
 import tilemap.TileMap;
 
 public class Level1State extends GameState {
-
     private TileMap tilemap;
     private Background bg;
 
