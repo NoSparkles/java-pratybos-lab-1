@@ -1,5 +1,6 @@
 package entity;
 
+import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
 import com.rs.GamePanel;
@@ -158,12 +159,12 @@ public abstract class MapObject {
         }
     }
 
-    public int getx() {
-        return (int)this.x;
+    public  double getx() {
+        return this.x;
     }
 
-    public int gety() {
-        return (int)this.y;
+    public double gety() {
+        return this.y;
     }
 
     public int getWidth() {
@@ -227,5 +228,14 @@ public abstract class MapObject {
                this.x + this.xMap - this.width > GamePanel.WIDTH || 
                this.y + this.yMap + this.height < 0 || 
                this.y + this.yMap - this.height > GamePanel.HEIGHT;
+    }
+
+    public void draw(Graphics2D g) {
+        if (this.facingRight) {
+            g.drawImage(this.animation.getImage(), (int)(this.x + this.xMap - this.width / 2), (int)(this.y + this.yMap - this.height / 2), null);
+        }
+        else {
+            g.drawImage(this.animation.getImage(), (int)(this.x + this.xMap - this.width / 2 + this.width), (int)(this.y + this.yMap - this.height / 2), -this.width, this.height, null);
+        }
     }
 }

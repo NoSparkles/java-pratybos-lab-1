@@ -54,7 +54,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         this.running = true;
 
         this.gsm = new GameStateManager();
-        System.out.println("GameStateManager initialized");
     }
 
     @Override

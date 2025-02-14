@@ -308,6 +308,7 @@ public class Player extends MapObject {
         }
     }
 
+    @Override
     public void draw(Graphics2D g) {
         this.setMapPosition();
 
@@ -324,12 +325,7 @@ public class Player extends MapObject {
             }
         }
 
-        if (this.facingRight) {
-            g.drawImage(this.animation.getImage(), (int)(this.x + this.xMap - this.width / 2), (int)(this.y + this.yMap - this.height / 2), null);
-        }
-        else {
-            g.drawImage(this.animation.getImage(), (int)(this.x + this.xMap - this.width / 2 + this.width), (int)(this.y + this.yMap - this.height / 2), -this.width, this.height, null);
-        }
+        super.draw(g);
     }
 }
 

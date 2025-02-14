@@ -1,24 +1,31 @@
 package gamestate;
 
 import java.awt.Graphics2D;
+import java.util.ArrayList;
 
 import com.rs.GamePanel;
 
+import entity.Enemy;
+import entity.HUD;
 import entity.Player;
+import entity.enemies.Snail;
 import tilemap.Background;
 import tilemap.TileMap;
 
-public class Level1State extends GameState {
+public final class Level1State extends GameState {
     private TileMap tilemap;
     private Background bg;
 
     private Player player;
 
+    private HUD hud;
+
+    private ArrayList<Enemy> enemies;
+
     public Level1State(GameStateManager gsm) {
         super(gsm);
         this.init();
     }
-
     
     @Override
     public void init() {
@@ -31,6 +38,13 @@ public class Level1State extends GameState {
         this.bg = new Background("/Backgrounds/grassbg1.gif", 0.1);
 
         this.player = new Player(this.tilemap, 165, 200);
+
+        this.enemies = new ArrayList<>();
+
+        Snail s = new Snail(this.tilemap, 100, 100);
+        this.enemies.add(s);
+
+        this.hud = new HUD(this.player);
     }
 
     @Override
@@ -38,11 +52,15 @@ public class Level1State extends GameState {
         this.player.update();
         this.tilemap.setPosition(GamePanel.WIDTH / 2 - this.player.getx(), GamePanel.HEIGHT / 2 - this.player.gety());
         this.bg.setPosition(this.tilemap.getx(), this.tilemap.gety());
-
-        System.out.println("Player x: " + this.player.getx() + " y: " + this.player.gety());
-        System.out.println("Tilemap x: " + this.tilemap.getx() + " y: " + this.tilemap.gety());
-        for(int i = 0; i < this.player.getFireBalls().size() && this.player.getFireBalls().get(i).getx() < 50; i++) {
-            System.out.println("Fireball x: " + this.player.getFireBalls().get(i).getx() + " y: " + this.player.getFireBalls().get(i).gety());
+        
+        // update enemies
+        for (int i = 0; i < this.enemies.size(); i++) {
+            Enemy enemy = this.enemies.get(i);
+            enemy.update();
+            if (enemy.isDead()) {
+                this.enemies.remove(i);
+                i--;
+            }
         }
     }
 
@@ -56,6 +74,14 @@ public class Level1State extends GameState {
 
         // draw player
         this.player.draw(g);
+
+        // draw enemies
+        for (Enemy enemy : this.enemies) {
+            enemy.draw(g);
+        }
+
+        // draw hud
+        this.hud.draw(g);
     }
 
     @Override
