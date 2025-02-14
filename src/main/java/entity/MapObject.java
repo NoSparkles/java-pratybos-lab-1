@@ -65,9 +65,14 @@ public abstract class MapObject {
     protected double jumpStart;
     protected double stopJumpSpeed;
 
-    public MapObject(TileMap tm) {
+    public MapObject(TileMap tm, double x, double y) {
         this.tileMap = tm;
         this.tileSize = tm.getTileSize();
+
+        this.xTemp = x;
+        this.yTemp = y;
+        this.x = x;
+        this.y = y;
     }
 
     public boolean intersects(MapObject o) {
@@ -180,6 +185,11 @@ public abstract class MapObject {
     public void setPosition(double x, double y) {
         this.x = x;
         this.y = y;
+    }
+
+    public void setTempPosition(double x, double y) {
+        this.xTemp = x;
+        this.yTemp = y;
     }
 
     public void setVector(double dx, double dy) {

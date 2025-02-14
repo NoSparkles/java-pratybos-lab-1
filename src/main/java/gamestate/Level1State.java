@@ -19,18 +19,18 @@ public class Level1State extends GameState {
         this.init();
     }
 
+    
     @Override
     public void init() {
         this.tilemap = new TileMap(30);
         this.tilemap.loadTiles("/Tilesets/grasstileset.gif");
         this.tilemap.loadMap("/Maps/level1-1.map");
         this.tilemap.setPosition(0, 0);
-        this.tilemap.setTween(0.07);
+        this.tilemap.setTween(1);
 
-        this.bg = new Background("/Backgrounds/grassbg1.gif", 1);
+        this.bg = new Background("/Backgrounds/grassbg1.gif", 0.1);
 
-        this.player = new Player(this.tilemap);
-        this.player.setPosition(165, 100);
+        this.player = new Player(this.tilemap, 165, 200);
     }
 
     @Override
@@ -38,14 +38,16 @@ public class Level1State extends GameState {
         this.player.update();
         this.tilemap.setPosition(GamePanel.WIDTH / 2 - this.player.getx(), GamePanel.HEIGHT / 2 - this.player.gety());
         this.bg.setPosition(this.tilemap.getx(), this.tilemap.gety());
+
+        System.out.println("Player x: " + this.player.getx() + " y: " + this.player.gety());
+        System.out.println("Tilemap x: " + this.tilemap.getx() + " y: " + this.tilemap.gety());
+        for(int i = 0; i < this.player.getFireBalls().size() && this.player.getFireBalls().get(i).getx() < 50; i++) {
+            System.out.println("Fireball x: " + this.player.getFireBalls().get(i).getx() + " y: " + this.player.getFireBalls().get(i).gety());
+        }
     }
 
     @Override
     public void draw(Graphics2D g) {
-        // clear screen
-        g.setColor(java.awt.Color.WHITE);
-        g.fillRect(0, 0, GamePanel.WIDTH, GamePanel.HEIGHT);
-        
         // draw background
         this.bg.draw(g);
 

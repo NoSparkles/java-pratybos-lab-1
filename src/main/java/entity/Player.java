@@ -45,9 +45,13 @@ public class Player extends MapObject {
     private static final int GLIDING = 4;
     private static final int FIREBALL = 5;
     private static final int SCRATCHING = 6;
+
+    public ArrayList<FireBall> getFireBalls() {
+        return this.fireBalls;
+    }
     
-    public Player(TileMap tm) {
-        super(tm);
+    public Player(TileMap tm, double x, double y) {
+        super(tm, x, y);
 
         this.width = 30;
         this.height = 30;
@@ -69,7 +73,7 @@ public class Player extends MapObject {
 
         this.fireCost = 200;
         this.fireBallDamage = 5;
-        this.fireBalls = new ArrayList<FireBall>();
+        this.fireBalls = new ArrayList<>();
 
         this.scratchDamage = 8;
         this.scratchRange = 40;
@@ -78,7 +82,7 @@ public class Player extends MapObject {
         try {
             BufferedImage spritesheet = javax.imageio.ImageIO.read(getClass().getResourceAsStream("/Sprites/Player/playersprites.gif"));
             
-            this.sprites = new ArrayList<BufferedImage[]>();
+            this.sprites = new ArrayList<>();
             for (int i = 0; i < 7; ++i) {
                 BufferedImage[] bi = new BufferedImage[this.numFrames[i]];
                 for (int j = 0; j < this.numFrames[i]; ++j) {
@@ -193,7 +197,6 @@ public class Player extends MapObject {
     }
 
     public void update() {
-        System.out.println(this.animation.getFrame());
         // update position
         this.getNextPosition();
         this.checkTileMapCollision();
@@ -208,6 +211,29 @@ public class Player extends MapObject {
         if (this.currentAction == Player.FIREBALL) {
             if (this.animation.hasPlayedOnce()) {
                 this.firing = false;
+            }
+        }
+
+        // fireball attack
+        this.fire += 1;
+        if (this.fire > this.maxFire) {
+            this.fire = this.maxFire;
+        }
+        if (this.firing && this.currentAction != Player.FIREBALL) {
+            if (this.fire > this.fireCost) {
+                this.fire -= this.fireCost;
+                FireBall fb = new FireBall(this.tileMap, this.facingRight, this.x, this.y);
+                fb.setPosition(this.x, this.y);
+                this.fireBalls.add(fb);
+            }
+        }
+
+        // update fireballs
+        for (int i = 0; i < this.fireBalls.size(); ++i) {
+            this.fireBalls.get(i).update();
+            if (this.fireBalls.get(i).shouldRemove()) {
+                this.fireBalls.remove(i);
+                --i;
             }
         }
 
@@ -284,6 +310,11 @@ public class Player extends MapObject {
 
     public void draw(Graphics2D g) {
         this.setMapPosition();
+
+        // draw fireballs
+        for (int i = 0; i < this.fireBalls.size(); ++i) {
+            this.fireBalls.get(i).draw(g);
+        }
 
         // draw player
         if (this.flinching) {

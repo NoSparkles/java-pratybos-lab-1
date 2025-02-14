@@ -11,9 +11,9 @@ public class FireBall extends MapObject {
     private BufferedImage[] sprites;
     private BufferedImage[] hitSprites;
     
-    public FireBall(TileMap tm, boolean right) {
-        super(tm);
-        
+    public FireBall(TileMap tm, boolean right, double x, double y) {
+        super(tm, x, y);
+
         this.facingRight = right;
         
         this.moveSpeed = 3.8;
