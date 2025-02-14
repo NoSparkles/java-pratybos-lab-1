@@ -81,6 +81,9 @@ public class TileMap {
 
             this.map = new int[this.numRows][this.numCols];
 
+            this.xmin = GamePanel.WIDTH - this.width;
+            this.xmax = 0;
+
             // regex for 1 or more whitespace characters
             String delims = "\\s+";
 
@@ -132,6 +135,10 @@ public class TileMap {
 
         this.colOffset = (int)-this.x / this.tileSize;
         this.rowOffset = (int)-this.y / this.tileSize;
+    }
+
+    public void setTween(double d) {
+        this.tween = d;
     }
 
     private void fixBounds() {
