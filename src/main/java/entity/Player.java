@@ -103,14 +103,6 @@ public class Player extends MapObject {
         this.animation.setDelay(400);
     }
 
-    public double getX() {
-        return this.x;
-    }
-
-    public double getY() {
-        return this.y;
-    }
-
     public int getHealth() { 
         return this.health;
     }

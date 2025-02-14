@@ -27,7 +27,7 @@ public class Level1State extends GameState {
         this.tilemap.setPosition(0, 0);
         this.tilemap.setTween(0.07);
 
-        this.bg = new Background("/Backgrounds/grassbg1.gif", 0.1);
+        this.bg = new Background("/Backgrounds/grassbg1.gif", 1);
 
         this.player = new Player(this.tilemap);
         this.player.setPosition(165, 100);
@@ -37,7 +37,7 @@ public class Level1State extends GameState {
     public void update() {
         this.player.update();
         this.tilemap.setPosition(GamePanel.WIDTH / 2 - this.player.getX(), GamePanel.HEIGHT / 2 - this.player.getY());
-        
+        this.bg.setPosition(this.tilemap.getx(), this.tilemap.gety());
     }
 
     @Override
