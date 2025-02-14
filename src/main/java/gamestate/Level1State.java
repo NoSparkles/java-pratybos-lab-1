@@ -36,7 +36,7 @@ public class Level1State extends GameState {
     @Override
     public void update() {
         this.player.update();
-        this.tilemap.setPosition(GamePanel.WIDTH / 2 - this.player.getX(), GamePanel.HEIGHT / 2 - this.player.getY());
+        this.tilemap.setPosition(GamePanel.WIDTH / 2 - this.player.getx(), GamePanel.HEIGHT / 2 - this.player.gety());
         this.bg.setPosition(this.tilemap.getx(), this.tilemap.gety());
     }
 
