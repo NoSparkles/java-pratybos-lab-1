@@ -21,7 +21,7 @@ public class Player extends MapObject {
     private boolean firing;
     private int fireCost;
     private int fireBallDamage;
-    //private ArrayList<FireBall> fireBalls;
+    private ArrayList<FireBall> fireBalls;
 
     // scratch
     private boolean scratching;
@@ -69,7 +69,7 @@ public class Player extends MapObject {
 
         this.fireCost = 200;
         this.fireBallDamage = 5;
-        //fireBalls = new ArrayList<FireBall>();
+        this.fireBalls = new ArrayList<FireBall>();
 
         this.scratchDamage = 8;
         this.scratchRange = 40;
@@ -193,10 +193,23 @@ public class Player extends MapObject {
     }
 
     public void update() {
+        System.out.println(this.animation.getFrame());
         // update position
         this.getNextPosition();
         this.checkTileMapCollision();
         this.setPosition(this.xTemp, this.yTemp);
+
+        // check attack has stopped
+        if (this.currentAction == Player.SCRATCHING) {
+            if (this.animation.hasPlayedOnce()) {
+                this.scratching = false;
+            }
+        }
+        if (this.currentAction == Player.FIREBALL) {
+            if (this.animation.hasPlayedOnce()) {
+                this.firing = false;
+            }
+        }
 
         // set animation
         if (this.scratching) {
@@ -208,7 +221,7 @@ public class Player extends MapObject {
             }
         }
         else if (this.firing) {
-            if (this.currentAction == Player.FIREBALL) {
+            if (this.currentAction != Player.FIREBALL) {
                 this.currentAction = Player.FIREBALL;
                 this.animation.setFrames(this.sprites.get(Player.FIREBALL));
                 this.animation.setDelay(100);
