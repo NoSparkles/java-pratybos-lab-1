@@ -41,7 +41,7 @@ public final class Level1State extends GameState {
 
         this.enemies = new ArrayList<>();
 
-        Snail s = new Snail(this.tilemap, 100, 100);
+        Snail s = new Snail(this.tilemap, this.player.getx(), this.player.gety());
         this.enemies.add(s);
 
         this.hud = new HUD(this.player);
@@ -55,12 +55,7 @@ public final class Level1State extends GameState {
         
         // update enemies
         for (int i = 0; i < this.enemies.size(); i++) {
-            Enemy enemy = this.enemies.get(i);
-            enemy.update();
-            if (enemy.isDead()) {
-                this.enemies.remove(i);
-                i--;
-            }
+            this.enemies.get(i).update();
         }
     }
 
@@ -76,8 +71,8 @@ public final class Level1State extends GameState {
         this.player.draw(g);
 
         // draw enemies
-        for (Enemy enemy : this.enemies) {
-            enemy.draw(g);
+        for (int i = 0; i < this.enemies.size(); i++) {
+            this.enemies.get(i).draw(g);
         }
 
         // draw hud
