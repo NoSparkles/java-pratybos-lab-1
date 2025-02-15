@@ -37,7 +37,8 @@
   <build>
     <resources>
       <resource>
-        <directory>src/main/resources</directory>
+        <directory>src/main/Resources</directory>
+        <targetPath></targetPath>
         <includes>
           <include>**/*</include>
         </includes>
