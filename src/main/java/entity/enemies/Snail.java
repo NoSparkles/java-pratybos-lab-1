@@ -97,9 +97,9 @@ public class Snail extends Enemy {
 
     @Override
     public void draw(java.awt.Graphics2D g) {
-        if (this.notOnScreen()) {
-            return;
-        }
+        // if (this.notOnScreen()) {
+        //     return;
+        // }
 
         this.setMapPosition();
 

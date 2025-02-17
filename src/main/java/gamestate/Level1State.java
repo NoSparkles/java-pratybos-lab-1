@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import com.rs.GamePanel;
 
 import entity.Enemy;
+import entity.Explosion;
 import entity.HUD;
 import entity.Player;
 import entity.enemies.Snail;
@@ -21,6 +22,7 @@ public final class Level1State extends GameState {
     private HUD hud;
 
     private ArrayList<Enemy> enemies;
+    private ArrayList<Explosion> explosions;
 
     public Level1State(GameStateManager gsm) {
         super(gsm);
@@ -41,6 +43,8 @@ public final class Level1State extends GameState {
 
         this.enemies = new ArrayList<>();
 
+        this.explosions = new ArrayList<>();
+
         Snail s = new Snail(this.tilemap, this.player.getx(), this.player.gety());
         this.enemies.add(s);
 
@@ -53,9 +57,26 @@ public final class Level1State extends GameState {
         this.tilemap.setPosition(GamePanel.WIDTH / 2 - this.player.getx(), GamePanel.HEIGHT / 2 - this.player.gety());
         this.bg.setPosition(this.tilemap.getx(), this.tilemap.gety());
         
+        // attack enemies
+        this.player.checkAttack(this.enemies);
+
         // update enemies
-        for (int i = 0; i < this.enemies.size(); i++) {
+        for (int i = 0; i < this.enemies.size(); ++i) {
             this.enemies.get(i).update();
+            if (this.enemies.get(i).isDead()) {
+                explosions.add(new Explosion(this.enemies.get(i).getx(), this.enemies.get(i).gety()));
+                this.enemies.remove(i);
+                --i;
+            }
+        }
+
+        // update explosions
+        for (int i = 0; i < this.explosions.size(); i++) {
+            this.explosions.get(i).update();
+            if (this.explosions.get(i).shouldRemove()) {
+                this.explosions.remove(i);
+                --i;
+            }
         }
     }
 
@@ -73,6 +94,12 @@ public final class Level1State extends GameState {
         // draw enemies
         for (int i = 0; i < this.enemies.size(); i++) {
             this.enemies.get(i).draw(g);
+        }
+
+        // draw explosions
+        for (int i = 0; i < this.explosions.size(); i++) {
+            this.explosions.get(i).setMapPosition((int)this.tilemap.getx(), (int)this.tilemap.gety());
+            this.explosions.get(i).draw(g);
         }
 
         // draw hud

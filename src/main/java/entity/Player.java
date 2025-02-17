@@ -135,6 +135,41 @@ public class Player extends MapObject {
         this.gliding = b;
     }
 
+    public void checkAttack(ArrayList<Enemy> enemies) {
+        // loop through enemies
+        for (int i = 0; i < enemies.size(); ++i) {
+            Enemy e = enemies.get(i);
+
+            // scratch attack
+            if (this.scratching) {
+                if (this.facingRight) {
+                    if (e.getx() > this.x && e.getx() < this.x + this.scratchRange && e.gety() > this.y - this.height / 2 && e.gety() < this.y + this.height / 2) {
+                        e.hit(this.scratchDamage);
+                    }
+                }
+                else {
+                    if (e.getx() < this.x && e.getx() > this.x - this.scratchRange && e.gety() > this.y - this.height / 2 && e.gety() < this.y + this.height / 2) {
+                        e.hit(this.scratchDamage);
+                    }
+                }
+            }
+
+            // fireballs
+            for (int j = 0; j < this.fireBalls.size(); ++j) {
+                if (this.fireBalls.get(j).intersects(e)) {
+                    e.hit(this.fireBallDamage);
+                    this.fireBalls.get(j).setHit();
+                    break;
+                }
+            }
+
+            // check enemy collision
+            if (this.intersects(e)) {
+                //this.hit(e.getDamage());
+            }
+        }
+    }
+
     private void getNextPosition() {
         // movement
         if (this.left) {
