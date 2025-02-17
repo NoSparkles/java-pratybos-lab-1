@@ -135,6 +135,19 @@ public class Player extends MapObject {
         this.gliding = b;
     }
 
+    private void hit(int damage) {
+        if (this.dead || this.flinching) {
+            return;
+        }
+        this.health -= damage;
+        if (this.health <= 0) {
+            this.health = 0;
+            this.dead = true;
+        }
+        this.flinching = true;
+        this.flinchTimer = System.nanoTime();
+    }
+
     public void checkAttack(ArrayList<Enemy> enemies) {
         // loop through enemies
         for (int i = 0; i < enemies.size(); ++i) {
@@ -165,7 +178,7 @@ public class Player extends MapObject {
 
             // check enemy collision
             if (this.intersects(e)) {
-                //this.hit(e.getDamage());
+                this.hit(e.getDamage());
             }
         }
     }
@@ -269,6 +282,14 @@ public class Player extends MapObject {
             if (this.fireBalls.get(i).shouldRemove()) {
                 this.fireBalls.remove(i);
                 --i;
+            }
+        }
+
+        // check done flinching
+        if (this.flinching) {
+            long elapsed = (System.nanoTime() - this.flinchTimer) / 1000000;
+            if (elapsed > 1000) {
+                this.flinching = false;
             }
         }
 

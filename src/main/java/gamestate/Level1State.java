@@ -1,6 +1,7 @@
 package gamestate;
 
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.util.ArrayList;
 
 import com.rs.GamePanel;
@@ -41,14 +42,26 @@ public final class Level1State extends GameState {
 
         this.player = new Player(this.tilemap, 165, 200);
 
-        this.enemies = new ArrayList<>();
+        this.populateEnemies();
 
         this.explosions = new ArrayList<>();
 
-        Snail s = new Snail(this.tilemap, this.player.getx(), this.player.gety());
-        this.enemies.add(s);
-
         this.hud = new HUD(this.player);
+    }
+
+    private void populateEnemies() {
+        this.enemies = new ArrayList<>();
+
+        Point[] points = new Point[] {
+            new Point(240, 200),
+            new Point(860, 200),
+            new Point(1525, 200),
+            new Point(1680, 200),
+            new Point(1800, 200)
+        };
+        for (int i = 0; i < points.length; ++i) {
+            this.enemies.add(new Snail(this.tilemap, points[i].x, points[i].y));
+        }
     }
 
     @Override
